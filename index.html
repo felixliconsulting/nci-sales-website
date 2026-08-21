@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Kanit:wght@600;700&family=Lato:wght@400;700&family=Montserrat:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=8" />
   </head>
   <body>
     <header class="nav">
@@ -55,21 +55,38 @@
           </div>
         </div>
         <aside class="hero-visual" aria-hidden="true">
-          <div class="orbit">
-            <p class="orbit-label">Decision architecture</p>
-            <ol class="orbit-steps">
-              <li>Observe</li>
-              <li>Diagnose</li>
-              <li>Release</li>
-              <li>Confirm</li>
-              <li>Accelerate</li>
-            </ol>
-            <p class="orbit-end">Aligned Decision</p>
+          <img class="hero-photo" src="images/hero-conversation.jpg" alt="" />
+          <div class="orbit orbit-rich reveal-hero">
+            <svg class="orbit-rings" viewBox="0 0 320 320" fill="none">
+              <circle class="ring ring-a" cx="160" cy="160" r="148" />
+              <circle class="ring ring-b" cx="160" cy="160" r="112" />
+              <circle class="ring ring-c" cx="160" cy="160" r="74" />
+              <circle class="ring-core" cx="160" cy="160" r="8" />
+              <g class="orbit-nodes">
+                <circle cx="160" cy="12" r="5" />
+                <circle cx="268" cy="72" r="5" />
+                <circle cx="292" cy="190" r="5" />
+                <circle cx="210" cy="292" r="5" />
+                <circle cx="68" cy="248" r="5" />
+                <circle cx="28" cy="110" r="5" />
+              </g>
+            </svg>
+            <div class="orbit-panel">
+              <p class="orbit-label">Decision architecture</p>
+              <ol class="orbit-steps">
+                <li>Observe</li>
+                <li>Diagnose</li>
+                <li>Release</li>
+                <li>Confirm</li>
+                <li>Accelerate</li>
+              </ol>
+              <p class="orbit-end">Aligned Decision</p>
+            </div>
           </div>
         </aside>
       </section>
 
-      <section id="compare" class="section compare">
+      <section id="compare" class="section compare section-atmosphere">
         <div class="wrap">
           <p class="eyebrow">Traditional Sales vs. NCI Sales</p>
           <h2>Scripts teach you what to say. Diagnosis shows you what is happening.</h2>
@@ -84,8 +101,17 @@
             performing a script and start operating on the sale itself.
           </p>
 
+          <figure class="photo-band reveal-on-scroll">
+            <img src="images/sections/decision-room.jpg" alt="Professionals in a high-stakes conversation" />
+            <figcaption>The conversation is only the surface. The decision sits underneath.</figcaption>
+          </figure>
+
           <div class="compare-grid">
-            <article class="compare-card">
+            <article class="compare-card reveal-on-scroll">
+              <div class="viz viz-script" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <p>Script stack</p>
+              </div>
               <p class="card-kicker">Traditional training</p>
               <h3>Focuses on the script</h3>
               <ul>
@@ -95,7 +121,16 @@
                 <li>Measure skill by how well the lines land</li>
               </ul>
             </article>
-            <article class="compare-card compare-card-accent">
+            <article class="compare-card compare-card-accent reveal-on-scroll">
+              <div class="viz viz-signal" aria-hidden="true">
+                <svg viewBox="0 0 160 72" fill="none">
+                  <path d="M8 52 C28 52 28 20 48 20 C68 20 68 52 88 52 C108 52 108 12 128 12 C142 12 148 28 152 36" />
+                  <circle cx="48" cy="20" r="4" />
+                  <circle cx="88" cy="52" r="4" />
+                  <circle cx="128" cy="12" r="4" />
+                </svg>
+                <p>Diagnostic signal</p>
+              </div>
               <p class="card-kicker">NCI Sales</p>
               <h3>Focuses on the decision</h3>
               <ul>
@@ -118,33 +153,39 @@
             This is the operating path from first signal to an aligned decision.
           </p>
 
-          <ol class="flow">
-            <li>
+          <ol class="flow flow-path">
+            <li class="reveal-on-scroll">
+              <span class="flow-node" aria-hidden="true"></span>
               <span class="flow-step">01</span>
               <strong>Observe</strong>
               <p>Watch the person, not just the words.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="flow-node" aria-hidden="true"></span>
               <span class="flow-step">02</span>
               <strong>Diagnose</strong>
               <p>Name the brake that is holding the decision.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="flow-node" aria-hidden="true"></span>
               <span class="flow-step">03</span>
               <strong>Release Resistance</strong>
               <p>Remove pressure instead of adding more of it.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="flow-node" aria-hidden="true"></span>
               <span class="flow-step">04</span>
               <strong>Confirm</strong>
               <p>Check that the path is actually clear.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="flow-node" aria-hidden="true"></span>
               <span class="flow-step">05</span>
               <strong>Accelerate</strong>
               <p>Move only once the decision can move.</p>
             </li>
-            <li class="flow-end">
+            <li class="flow-end reveal-on-scroll">
+              <span class="flow-node" aria-hidden="true"></span>
               <span class="flow-step">06</span>
               <strong>Aligned Decision</strong>
               <p>The person chooses without being forced.</p>
@@ -153,7 +194,7 @@
         </div>
       </section>
 
-      <section id="operator" class="section operator">
+      <section id="operator" class="section operator section-atmosphere">
         <div class="wrap">
           <p class="eyebrow">Become the Operator</p>
           <h2>You do not leave with better lines. You leave with a different job.</h2>
@@ -163,8 +204,20 @@
             the decision underneath them.
           </p>
 
+          <figure class="photo-band reveal-on-scroll">
+            <img src="images/sections/workshop.jpg" alt="Operators training together in a live workshop" />
+            <figcaption>Practice under pressure is where the operator role takes shape.</figcaption>
+          </figure>
+
           <div class="transform">
-            <article>
+            <article class="reveal-on-scroll">
+              <div class="viz viz-person muted" aria-hidden="true">
+                <svg viewBox="0 0 80 96" fill="none">
+                  <circle cx="40" cy="24" r="14" />
+                  <path d="M16 88 V62 C16 48 28 42 40 42 C52 42 64 48 64 62 V88" />
+                  <path class="slash" d="M22 30 L58 70" />
+                </svg>
+              </div>
               <p class="card-kicker">You enter as</p>
               <ul>
                 <li>Someone who knows what to say when a deal stalls</li>
@@ -174,9 +227,20 @@
               </ul>
             </article>
             <div class="transform-arrow" aria-hidden="true">
+              <svg class="transform-mark" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="30" />
+                <path d="M18 32 H42 M34 24 L46 32 L34 40" />
+              </svg>
               <span>Then</span>
             </div>
-            <article>
+            <article class="reveal-on-scroll">
+              <div class="viz viz-person active" aria-hidden="true">
+                <svg viewBox="0 0 80 96" fill="none">
+                  <circle cx="40" cy="24" r="14" />
+                  <path d="M16 88 V62 C16 48 28 42 40 42 C52 42 64 48 64 62 V88" />
+                  <circle class="signal" cx="58" cy="18" r="5" />
+                </svg>
+              </div>
               <p class="card-kicker">You leave as</p>
               <ul>
                 <li>Someone who can see why the decision is stuck</li>
@@ -199,27 +263,42 @@
           </p>
 
           <ul class="brake-grid">
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="18" r="8"/><path d="M10 40c2-8 10-12 14-12s12 4 14 12"/><circle cx="24" cy="18" r="3"/></svg>
+              </span>
               <span>01</span>
               <h3>Identity</h3>
               <p>The decision would change who they believe they are.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><circle cx="16" cy="20" r="6"/><circle cx="32" cy="20" r="6"/><circle cx="24" cy="32" r="6"/><path d="M21 24l-2 4M27 24l2 4M20 20h8"/></svg>
+              </span>
               <span>02</span>
               <h3>Tribal Judgment</h3>
               <p>The decision would cost them standing with their people.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><path d="M24 8c8 0 14 6 14 14 0 10-14 18-14 18S10 32 10 22c0-8 6-14 14-14z"/><circle cx="24" cy="22" r="4"/></svg>
+              </span>
               <span>03</span>
               <h3>Emotional Resistance</h3>
               <p>The body is already saying no, before the logic has a chance.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="12" width="28" height="24" rx="2"/><path d="M18 24h12M18 30h8"/><circle cx="34" cy="16" r="6"/></svg>
+              </span>
               <span>04</span>
               <h3>Cognitive Friction</h3>
               <p>The decision still does not make sense in their own terms.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="14"/><path d="M24 14v10l7 4"/></svg>
+              </span>
               <span>05</span>
               <h3>Time Delay</h3>
               <p>They need distance, not because they are unclear, but because the moment is loaded.</p>
@@ -230,7 +309,7 @@
         </div>
       </section>
 
-      <section id="journey" class="section journey">
+      <section id="journey" class="section journey section-atmosphere">
         <div class="wrap">
           <p class="eyebrow">The Certification Journey</p>
           <h2>Five levels. One operating system.</h2>
@@ -239,24 +318,29 @@
             through live application and advanced certification.
           </p>
 
-          <ol class="levels">
-            <li>
+          <ol class="levels levels-ladder">
+            <li class="reveal-on-scroll">
+              <span class="level-rail" aria-hidden="true"></span>
               <span>Level 1</span>
               <strong>Architecture of a Sale</strong>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="level-rail" aria-hidden="true"></span>
               <span>Level 2</span>
               <strong>The Operator</strong>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="level-rail" aria-hidden="true"></span>
               <span>Level 3</span>
               <strong>Advanced Protocols</strong>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="level-rail" aria-hidden="true"></span>
               <span>Level 4</span>
               <strong>Live &amp; Phone Application</strong>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="level-rail" aria-hidden="true"></span>
               <span>Level 5</span>
               <strong>Advanced Certification</strong>
             </li>
@@ -294,17 +378,29 @@
             <div class="carousel-viewport">
               <ul class="carousel-track">
                 <li class="carousel-slide">
-                  <div class="slide-media" aria-hidden="true">01</div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/event-1.jpg" alt="Upcoming live experience venue" />
+                    <span class="photo-badge">01</span>
+                    <span class="photo-caption">Upcoming</span>
+                  </div>
                   <h4>Upcoming Event #1</h4>
                   <p>Placeholder for the next NCI Sales live experience.</p>
                 </li>
                 <li class="carousel-slide">
-                  <div class="slide-media" aria-hidden="true">02</div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/event-2.jpg" alt="Workshop seating for a future NCI Sales event" />
+                    <span class="photo-badge">02</span>
+                    <span class="photo-caption">Upcoming</span>
+                  </div>
                   <h4>Upcoming Event #2</h4>
                   <p>Placeholder for a future workshop or certification event.</p>
                 </li>
                 <li class="carousel-slide">
-                  <div class="slide-media" aria-hidden="true">03</div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/event-3.jpg" alt="Advanced operator training room" />
+                    <span class="photo-badge">03</span>
+                    <span class="photo-caption">Upcoming</span>
+                  </div>
                   <h4>Upcoming Event #3</h4>
                   <p>Placeholder for advanced live operator training.</p>
                 </li>
@@ -345,29 +441,44 @@
             <div class="carousel-viewport">
               <ul class="carousel-track">
                 <li class="carousel-slide">
-                  <div class="slide-media photo" aria-hidden="true"></div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/photo-event.jpg" alt="NCI Sales live immersion event photography" />
+                    <span class="photo-caption">Event Photography</span>
+                  </div>
                   <h4>Event Photography</h4>
-                  <p>Placeholder for live immersion photography.</p>
+                  <p>Moments from the inaugural live immersion.</p>
                 </li>
                 <li class="carousel-slide">
-                  <div class="slide-media photo" aria-hidden="true"></div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/photo-classroom.jpg" alt="Classroom instruction during live immersion" />
+                    <span class="photo-caption">Classroom Sessions</span>
+                  </div>
                   <h4>Classroom Sessions</h4>
-                  <p>Placeholder for instruction and classroom moments.</p>
+                  <p>Instruction and classroom moments from the floor.</p>
                 </li>
                 <li class="carousel-slide">
-                  <div class="slide-media photo" aria-hidden="true"></div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/photo-roleplay.jpg" alt="Live role play practice session" />
+                    <span class="photo-caption">Live Role Play</span>
+                  </div>
                   <h4>Live Role Play</h4>
-                  <p>Placeholder for guided practice and live role play.</p>
+                  <p>Guided practice and live role play under pressure.</p>
                 </li>
                 <li class="carousel-slide">
-                  <div class="slide-media photo" aria-hidden="true"></div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/photo-interaction.jpg" alt="Students collaborating during training" />
+                    <span class="photo-caption">Student Interaction</span>
+                  </div>
                   <h4>Student Interaction</h4>
-                  <p>Placeholder for participant collaboration moments.</p>
+                  <p>Participant collaboration throughout the immersion.</p>
                 </li>
                 <li class="carousel-slide">
-                  <div class="slide-media photo" aria-hidden="true"></div>
+                  <div class="photo-frame landscape has-photo">
+                    <img src="images/live/photo-group.jpg" alt="Live immersion cohort group photo" />
+                    <span class="photo-caption">Group Photo</span>
+                  </div>
                   <h4>Group Photo</h4>
-                  <p>Placeholder for the full cohort group photo.</p>
+                  <p>The full cohort from the first live immersion.</p>
                 </li>
               </ul>
             </div>
@@ -384,8 +495,9 @@
         </div>
       </section>
 
-      <section id="waitlist" class="section waitlist">
-        <div class="wrap waitlist-panel">
+      <section id="waitlist" class="section waitlist waitlist-photo">
+        <div class="wrap waitlist-panel framed-panel">
+          <div class="panel-atmosphere" aria-hidden="true"></div>
           <p class="eyebrow">Coming Soon</p>
           <h2>Be the First to Know</h2>
           <p class="lede light">
@@ -406,7 +518,7 @@
         </div>
       </section>
 
-      <section id="contact" class="section contact">
+      <section id="contact" class="section contact section-atmosphere">
         <div class="wrap contact-grid">
           <div>
             <p class="eyebrow">Contact</p>
@@ -419,9 +531,12 @@
               Email
               <a href="mailto:contact@ncisales.com">contact@ncisales.com</a>
             </p>
+            <div class="viz viz-contact" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
           </div>
 
-          <form class="contact-form" id="contact-form">
+          <form class="contact-form framed-panel light" id="contact-form">
             <label>
               Name
               <input name="name" type="text" autocomplete="name" required />

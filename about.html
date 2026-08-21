@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Kanit:wght@600;700&family=Lato:wght@400;700&family=Montserrat:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=8" />
   </head>
   <body>
     <header class="nav">
@@ -35,19 +35,44 @@
     </header>
 
     <main>
-      <section class="page-hero">
-        <div class="wrap page-hero-copy">
+      <section class="page-hero page-hero-media">
+        <div class="page-hero-copy-block">
           <p class="eyebrow">About NCI Sales</p>
           <h1>Helping sales professionals understand what happens beneath every buying decision.</h1>
         </div>
+        <aside class="page-hero-media-visual" aria-hidden="true">
+          <img class="page-hero-photo" src="images/about-hero.jpg" alt="" />
+          <div class="page-hero-diagram">
+            <svg class="dual-arch" viewBox="0 0 280 240" fill="none">
+              <rect class="arch-frame" x="16" y="24" width="110" height="192" />
+              <rect class="arch-frame" x="154" y="24" width="110" height="192" />
+              <circle class="arch-dot" cx="71" cy="70" r="8" />
+              <circle class="arch-dot" cx="71" cy="120" r="8" />
+              <circle class="arch-dot" cx="71" cy="170" r="8" />
+              <path class="arch-line" d="M71 78 V112 M71 128 V162" />
+              <circle class="arch-core" cx="209" cy="120" r="28" />
+              <circle class="arch-ring" cx="209" cy="120" r="46" />
+              <path class="arch-bridge" d="M126 120 H154" />
+              <text x="71" y="214" text-anchor="middle">Outside</text>
+              <text x="209" y="214" text-anchor="middle">Inside</text>
+            </svg>
+          </div>
+        </aside>
       </section>
 
-      <section class="section mission">
+      <section class="section mission section-atmosphere">
         <div class="wrap">
           <p class="eyebrow">Our Mission</p>
           <h2>Sales education should teach the decision, not just the dialogue.</h2>
+          <figure class="photo-band reveal-on-scroll">
+            <img src="images/sections/decision-room.jpg" alt="A team working through a decision together" />
+            <figcaption>NCI Sales exists to prepare people to see what sits under the conversation.</figcaption>
+          </figure>
           <div class="mission-grid">
-            <div>
+            <div class="reveal-on-scroll">
+              <div class="viz viz-mission" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
               <h3>Why NCI Sales exists</h3>
               <p>
                 Most training prepares people to respond. NCI Sales exists to prepare people to see.
@@ -55,7 +80,15 @@
                 If you cannot see those forces, a script will only take you so far.
               </p>
             </div>
-            <div>
+            <div class="reveal-on-scroll">
+              <div class="viz viz-mission alt" aria-hidden="true">
+                <svg viewBox="0 0 120 48" fill="none">
+                  <path d="M8 36 L40 12 L72 28 L112 8" />
+                  <circle cx="40" cy="12" r="4" />
+                  <circle cx="72" cy="28" r="4" />
+                  <circle cx="112" cy="8" r="4" />
+                </svg>
+              </div>
               <h3>How we differ</h3>
               <p>
                 Traditional sales education teaches what to say when resistance shows up. We teach
@@ -72,15 +105,24 @@
           <p class="eyebrow">Our Belief</p>
           <h2>The operator’s job is diagnosis, not performance.</h2>
           <ul class="belief-list">
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><rect x="12" y="10" width="24" height="28"/><path d="M18 18h12M18 24h12M18 30h8"/><path d="M8 14l8-4M40 14l-8-4" class="cut"/></svg>
+              </span>
               <span>01</span>
               <p>Instead of memorizing scripts, operators learn to diagnose human behavior.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="14"/><path d="M24 14v10l8 4"/><path d="M14 34l20-20" class="cut"/></svg>
+              </span>
               <span>02</span>
               <p>Instead of overcoming objections, they learn to understand resistance.</p>
             </li>
-            <li>
+            <li class="reveal-on-scroll">
+              <span class="icon-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><path d="M12 36 L24 12 L36 36 Z"/><circle cx="24" cy="28" r="3"/></svg>
+              </span>
               <span>03</span>
               <p>Instead of chasing outcomes, they create aligned decisions.</p>
             </li>
@@ -88,7 +130,7 @@
         </div>
       </section>
 
-      <section class="section approach">
+      <section class="section approach section-atmosphere">
         <div class="wrap">
           <p class="eyebrow">Our Approach</p>
           <h2>Two architectures. One operating system.</h2>
@@ -99,7 +141,20 @@
           </p>
 
           <div class="approach-grid">
-            <article>
+            <article class="reveal-on-scroll">
+              <div class="viz viz-outside" aria-hidden="true">
+                <svg viewBox="0 0 200 100" fill="none">
+                  <path d="M20 80 V30 M20 30 H180 M180 30 V80" />
+                  <circle cx="50" cy="30" r="6" />
+                  <circle cx="90" cy="30" r="6" />
+                  <circle cx="130" cy="30" r="6" />
+                  <circle cx="170" cy="30" r="6" />
+                  <text x="50" y="92" text-anchor="middle">Obs</text>
+                  <text x="90" y="92" text-anchor="middle">Dx</text>
+                  <text x="130" y="92" text-anchor="middle">Rel</text>
+                  <text x="170" y="92" text-anchor="middle">Dec</text>
+                </svg>
+              </div>
               <p class="card-kicker">Outside the operator</p>
               <h3>Architecture Outside the Operator</h3>
               <p>
@@ -108,7 +163,15 @@
                 what is happening in the buyer when a sale moves, stalls, or collapses.
               </p>
             </article>
-            <article>
+            <article class="reveal-on-scroll">
+              <div class="viz viz-inside" aria-hidden="true">
+                <svg viewBox="0 0 200 100" fill="none">
+                  <circle cx="100" cy="48" r="34" />
+                  <circle cx="100" cy="48" r="18" />
+                  <circle cx="100" cy="48" r="5" />
+                  <path d="M100 14 V6 M100 90 V82 M66 20 L60 14 M134 20 L140 14 M66 76 L60 82 M134 76 L140 82" />
+                </svg>
+              </div>
               <p class="card-kicker">Inside the operator</p>
               <h3>Architecture Inside the Operator</h3>
               <p>
@@ -127,7 +190,11 @@
           <h2>Same conversation. Different job.</h2>
 
           <div class="compare-grid">
-            <article class="compare-card">
+            <article class="compare-card reveal-on-scroll">
+              <div class="viz viz-script" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <p>Script stack</p>
+              </div>
               <p class="card-kicker">Traditional Sales</p>
               <h3>Trains the script</h3>
               <ul>
@@ -137,7 +204,16 @@
                 <li>Optimize for getting to yes</li>
               </ul>
             </article>
-            <article class="compare-card compare-card-accent">
+            <article class="compare-card compare-card-accent reveal-on-scroll">
+              <div class="viz viz-signal" aria-hidden="true">
+                <svg viewBox="0 0 160 72" fill="none">
+                  <path d="M8 52 C28 52 28 20 48 20 C68 20 68 52 88 52 C108 52 108 12 128 12 C142 12 148 28 152 36" />
+                  <circle cx="48" cy="20" r="4" />
+                  <circle cx="88" cy="52" r="4" />
+                  <circle cx="128" cy="12" r="4" />
+                </svg>
+                <p>Diagnostic signal</p>
+              </div>
               <p class="card-kicker">NCI Sales</p>
               <h3>Trains the decision</h3>
               <ul>
@@ -161,22 +237,28 @@
           </p>
 
           <div class="team-grid">
-            <article class="team-card">
-              <div class="team-photo" aria-hidden="true">CH</div>
+            <article class="team-card reveal-on-scroll">
+              <div class="photo-frame portrait has-photo">
+                <img src="images/team/chase.jpg" alt="Portrait placeholder for Chase Hughes" />
+              </div>
               <h3>Chase Hughes</h3>
               <p class="team-role">Founder</p>
               <p>
                 Behavioral science expert, bestselling author, and creator of the NCI methodology.
               </p>
             </article>
-            <article class="team-card">
-              <div class="team-photo" aria-hidden="true">RM</div>
+            <article class="team-card reveal-on-scroll">
+              <div class="photo-frame portrait has-photo">
+                <img src="images/team/rosie.jpg" alt="Portrait placeholder for Rosie Mayer" />
+              </div>
               <h3>Rosie Mayer</h3>
               <p class="team-role">Chief Executive Officer</p>
               <p>Leading the vision, operations, and growth of NCI Sales.</p>
             </article>
-            <article class="team-card">
-              <div class="team-photo" aria-hidden="true">EW</div>
+            <article class="team-card reveal-on-scroll">
+              <div class="photo-frame portrait has-photo">
+                <img src="images/team/eli-wilde.jpg" alt="Portrait placeholder for Eli Wilde" />
+              </div>
               <h3>Eli Wilde</h3>
               <p class="team-role">Sales Advisor</p>
               <p>
@@ -184,8 +266,10 @@
                 of sales experience.
               </p>
             </article>
-            <article class="team-card">
-              <div class="team-photo" aria-hidden="true">ES</div>
+            <article class="team-card reveal-on-scroll">
+              <div class="photo-frame portrait has-photo">
+                <img src="images/team/eli-sanchez.jpg" alt="Portrait placeholder for Eli Sanchez" />
+              </div>
               <h3>Eli Sanchez</h3>
               <p class="team-role">Training &amp; Strategy</p>
               <p>
@@ -197,8 +281,9 @@
         </div>
       </section>
 
-      <section class="section future">
-        <div class="wrap future-panel">
+      <section class="section future future-photo">
+        <div class="wrap future-panel framed-panel">
+          <div class="panel-atmosphere" aria-hidden="true"></div>
           <p class="eyebrow">Our Future</p>
           <h2>NCI Sales is building more than a single course.</h2>
           <p class="lede light">
@@ -208,8 +293,8 @@
         </div>
       </section>
 
-      <section class="section final-cta">
-        <div class="wrap final-cta-panel">
+      <section class="section final-cta section-atmosphere">
+        <div class="wrap final-cta-panel framed-panel light">
           <h2>Ready to see sales differently?</h2>
           <p>
             Join the waitlist and be the first to hear when the first NCI Sales certification opens.
