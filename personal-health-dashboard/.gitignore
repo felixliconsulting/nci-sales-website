@@ -1,0 +1,13 @@
+node_modules
+.next
+.turbo
+.env
+.env.local
+.env*.local
+apps/web/.env.local
+apps/web/node_modules
+apps/web/.next
+backups/*.sql.gz
+.DS_Store
+*.log
+.vercel
