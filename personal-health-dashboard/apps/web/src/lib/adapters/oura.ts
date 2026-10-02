@@ -151,11 +151,28 @@ export async function syncOura(userId: string, daysBack = 30) {
   const datesTouched = new Set<string>();
 
   try {
-    const [dailySleep, dailyReadiness, workouts] = await Promise.all([
+    // Fetch independently so one missing scope (e.g. workout 401) doesn't fail the whole sync.
+    const settled = await Promise.allSettled([
       ouraGet("daily_sleep", accessToken, query),
       ouraGet("daily_readiness", accessToken, query),
       ouraGet("workout", accessToken, query),
     ]);
+    const dailySleep =
+      settled[0].status === "fulfilled" ? settled[0].value : { data: [] };
+    const dailyReadiness =
+      settled[1].status === "fulfilled" ? settled[1].value : { data: [] };
+    const workouts =
+      settled[2].status === "fulfilled" ? settled[2].value : { data: [] };
+    const partialErrors = settled
+      .filter((r): r is PromiseRejectedResult => r.status === "rejected")
+      .map((r) => (r.reason instanceof Error ? r.reason.message : "request failed"));
+    if (
+      settled[0].status === "rejected" &&
+      settled[1].status === "rejected" &&
+      settled[2].status === "rejected"
+    ) {
+      throw new Error(partialErrors.join("; ") || "Oura sync failed");
+    }
 
     for (const item of dailySleep?.data ?? []) {
       const checksum = sha256Hex(JSON.stringify(item));
@@ -265,17 +282,23 @@ export async function syncOura(userId: string, daysBack = 30) {
       await refreshDailyFeaturesForDate(userId, d);
     }
 
-    await supabase
+    const { error: syncStatusError } = await supabase
       .from("source_connections")
-      .update({
-        status: "connected",
-        last_sync_at: new Date().toISOString(),
-        last_error: null,
-      })
-      .eq("user_id", userId)
-      .eq("source", "oura");
+      .upsert(
+        {
+          user_id: userId,
+          source: "oura",
+          status: "connected",
+          last_sync_at: new Date().toISOString(),
+          last_error: partialErrors.length ? partialErrors.join("; ") : null,
+        },
+        { onConflict: "user_id,source" },
+      );
+    if (syncStatusError) {
+      throw new Error(`Failed to update Oura sync status: ${syncStatusError.message}`);
+    }
 
-    return { ok: true as const, days: datesTouched.size };
+    return { ok: true as const, days: datesTouched.size, warnings: partialErrors };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Oura sync failed";
     await supabase

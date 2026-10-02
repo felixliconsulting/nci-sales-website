@@ -296,9 +296,21 @@ create policy insight_snapshots_owner on public.insight_snapshots
   for select using (auth.uid() = user_id);
 
 -- Server ingestion uses the service role; grant it explicitly.
-grant usage on schema public to service_role;
+grant usage on schema public to service_role, authenticated, anon;
 grant select, insert, update, delete on all tables in schema public to service_role;
 grant usage, select, update on all sequences in schema public to service_role;
+
+-- Browser role needs SELECT (RLS still scopes to own rows)
+grant select on public.source_connections to authenticated;
+grant select on public.raw_ingest_events to authenticated;
+grant select on public.activity_sessions to authenticated;
+grant select on public.sleep_daily to authenticated;
+grant select on public.readiness_daily to authenticated;
+grant select on public.motivation_checkins to authenticated;
+grant select on public.daily_features to authenticated;
+grant select on public.insight_snapshots to authenticated;
+grant insert, update on public.motivation_checkins to authenticated;
+grant insert, update on public.source_connections to authenticated;
 
 -- oauth_tokens: NO policies for authenticated/anon — service role only
 revoke all on public.oauth_tokens from anon, authenticated;
