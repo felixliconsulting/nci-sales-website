@@ -295,6 +295,11 @@ create policy daily_features_owner on public.daily_features
 create policy insight_snapshots_owner on public.insight_snapshots
   for select using (auth.uid() = user_id);
 
+-- Server ingestion uses the service role; grant it explicitly.
+grant usage on schema public to service_role;
+grant select, insert, update, delete on all tables in schema public to service_role;
+grant usage, select, update on all sequences in schema public to service_role;
+
 -- oauth_tokens: NO policies for authenticated/anon — service role only
 revoke all on public.oauth_tokens from anon, authenticated;
 grant all on public.oauth_tokens to service_role;
