@@ -46,9 +46,16 @@ export function MotivationForm({ initial }: Props) {
         tags,
       }),
     });
+    const json = await res.json().catch(() => ({}));
     setSaving(false);
     if (!res.ok) {
-      setStatus("Could not save check-in.");
+      const detail =
+        typeof json.error === "string"
+          ? json.error
+          : json.details
+            ? "Validation failed"
+            : `Save failed (${res.status})`;
+      setStatus(detail);
       return;
     }
     setStatus("Saved for today.");

@@ -31,7 +31,17 @@ export async function POST(request: Request) {
     const checkin = await upsertMotivationCheckin(user.id, parsed.data);
     return NextResponse.json({ ok: true, id: checkin.id });
   } catch (err) {
-    console.error(err instanceof Error ? err.message : err);
-    return NextResponse.json({ error: "Save failed" }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Save failed";
+    console.error("motivation app ingest", message);
+    return NextResponse.json(
+      {
+        error: message.includes("not configured")
+          ? "Server missing SUPABASE_SERVICE_ROLE_KEY in .env.local"
+          : message.includes("relation") || message.includes("does not exist")
+            ? "Database tables missing — run supabase/migrations/20261002000000_init.sql in Supabase SQL Editor"
+            : "Save failed — check terminal logs / that the SQL migration was run",
+      },
+      { status: 500 },
+    );
   }
 }
