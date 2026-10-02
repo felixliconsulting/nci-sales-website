@@ -152,40 +152,106 @@ export async function syncOura(userId: string, daysBack = 30) {
 
   try {
     // Fetch independently so one missing scope (e.g. workout 401) doesn't fail the whole sync.
+    // daily_sleep = scores only; sleep = real durations in seconds.
     const settled = await Promise.allSettled([
       ouraGet("daily_sleep", accessToken, query),
+      ouraGet("sleep", accessToken, query),
       ouraGet("daily_readiness", accessToken, query),
       ouraGet("workout", accessToken, query),
     ]);
     const dailySleep =
       settled[0].status === "fulfilled" ? settled[0].value : { data: [] };
-    const dailyReadiness =
+    const sleepSessions =
       settled[1].status === "fulfilled" ? settled[1].value : { data: [] };
-    const workouts =
+    const dailyReadiness =
       settled[2].status === "fulfilled" ? settled[2].value : { data: [] };
+    const workouts =
+      settled[3].status === "fulfilled" ? settled[3].value : { data: [] };
     const partialErrors = settled
       .filter((r): r is PromiseRejectedResult => r.status === "rejected")
       .map((r) => (r.reason instanceof Error ? r.reason.message : "request failed"));
-    if (
-      settled[0].status === "rejected" &&
-      settled[1].status === "rejected" &&
-      settled[2].status === "rejected"
-    ) {
+    if (settled.every((r) => r.status === "rejected")) {
       throw new Error(partialErrors.join("; ") || "Oura sync failed");
     }
 
+    // Score lookup from daily_sleep (contributors.* are 1–100 scores, NOT seconds)
+    const scoreByDay = new Map<
+      string,
+      { id: string; score: number | null; efficiency: number | null; raw: unknown }
+    >();
     for (const item of dailySleep?.data ?? []) {
-      const checksum = sha256Hex(JSON.stringify(item));
+      const day = item.day as string;
+      if (!day) continue;
+      scoreByDay.set(day, {
+        id: item.id,
+        score: item.score ?? null,
+        efficiency: item.contributors?.efficiency ?? null,
+        raw: item,
+      });
+    }
+
+    // Aggregate real sleep periods by day from /sleep (durations are seconds).
+    type DayAgg = {
+      externalId: string;
+      totalSleep: number;
+      timeInBed: number;
+      efficiency: number | null;
+      restingHr: number | null;
+      hrv: number | null;
+      mainDuration: number;
+      raw: unknown;
+    };
+    const sleepByDay = new Map<string, DayAgg>();
+    for (const item of sleepSessions?.data ?? []) {
+      const day = item.day as string;
+      if (!day) continue;
+      const type = String(item.type || "");
+      if (type === "deleted" || type === "rest") continue;
+
+      const total = Number(item.total_sleep_duration) || 0;
+      const tib = Number(item.time_in_bed) || 0;
+      const prev = sleepByDay.get(day);
+      if (!prev) {
+        sleepByDay.set(day, {
+          externalId: item.id,
+          totalSleep: total,
+          timeInBed: tib,
+          efficiency: item.efficiency ?? null,
+          restingHr: item.lowest_heart_rate ?? item.average_heart_rate ?? null,
+          hrv: item.average_hrv ?? null,
+          mainDuration: total,
+          raw: item,
+        });
+        continue;
+      }
+
+      prev.totalSleep += total;
+      prev.timeInBed += tib;
+      // HRV / RHR / efficiency from the longest session of the night
+      if (total >= prev.mainDuration || type === "long_sleep") {
+        prev.externalId = item.id;
+        prev.efficiency = item.efficiency ?? prev.efficiency;
+        prev.restingHr = item.lowest_heart_rate ?? item.average_heart_rate ?? prev.restingHr;
+        prev.hrv = item.average_hrv ?? prev.hrv;
+        prev.mainDuration = Math.max(prev.mainDuration, total);
+        prev.raw = item;
+      }
+    }
+
+    for (const [sleepDate, agg] of sleepByDay) {
+      const daily = scoreByDay.get(sleepDate);
+      const payload = { session: agg.raw, daily: daily?.raw ?? null };
+      const checksum = sha256Hex(JSON.stringify(payload));
       const { data: raw } = await supabase
         .from("raw_ingest_events")
         .upsert(
           {
             user_id: userId,
             source: "oura",
-            external_id: item.id,
-            payload: item,
+            external_id: agg.externalId,
+            payload,
             checksum,
-            parser_version: "1",
+            parser_version: "2",
             processing_status: "processed",
           },
           { onConflict: "user_id,source,checksum" },
@@ -193,21 +259,41 @@ export async function syncOura(userId: string, daysBack = 30) {
         .select("id")
         .maybeSingle();
 
-      const sleepDate = item.day as string;
       datesTouched.add(sleepDate);
       await supabase.from("sleep_daily").upsert(
         {
           user_id: userId,
           source: "oura",
-          external_id: item.id,
+          external_id: daily?.id || agg.externalId,
           sleep_date: sleepDate,
-          total_sleep_sec: item.contributors?.total_sleep ?? item.total_sleep_duration ?? null,
-          time_in_bed_sec: item.contributors?.total_sleep ?? null,
-          efficiency: item.contributors?.efficiency ?? null,
-          score: item.score ?? null,
+          total_sleep_sec: agg.totalSleep || null,
+          time_in_bed_sec: agg.timeInBed || null,
+          efficiency: agg.efficiency ?? daily?.efficiency ?? null,
+          score: daily?.score ?? null,
+          resting_hr: agg.restingHr,
+          hrv: agg.hrv,
+          raw_event_id: raw?.id ?? null,
+        },
+        { onConflict: "user_id,source,sleep_date" },
+      );
+    }
+
+    // Days that only have a daily_sleep score (no session yet) — keep score, leave duration null
+    for (const [sleepDate, daily] of scoreByDay) {
+      if (sleepByDay.has(sleepDate)) continue;
+      datesTouched.add(sleepDate);
+      await supabase.from("sleep_daily").upsert(
+        {
+          user_id: userId,
+          source: "oura",
+          external_id: daily.id,
+          sleep_date: sleepDate,
+          total_sleep_sec: null,
+          time_in_bed_sec: null,
+          efficiency: daily.efficiency,
+          score: daily.score,
           resting_hr: null,
           hrv: null,
-          raw_event_id: raw?.id ?? null,
         },
         { onConflict: "user_id,source,sleep_date" },
       );
