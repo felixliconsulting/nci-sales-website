@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { ALLOWED_MOTIVATION_TAGS } from "@/lib/constants";
 
 type Props = {
+  localDate?: string;
   initial?: {
     motivation?: number;
     energy?: number;
@@ -14,7 +15,7 @@ type Props = {
   } | null;
 };
 
-export function MotivationForm({ initial }: Props) {
+export function MotivationForm({ initial, localDate }: Props) {
   const [motivation, setMotivation] = useState(initial?.motivation ?? 5);
   const [energy, setEnergy] = useState(initial?.energy ?? 5);
   const [soreness, setSoreness] = useState(initial?.soreness ?? 3);
@@ -44,6 +45,7 @@ export function MotivationForm({ initial }: Props) {
         confidence,
         note,
         tags,
+        local_date: localDate,
       }),
     });
     const json = await res.json().catch(() => ({}));
@@ -58,7 +60,7 @@ export function MotivationForm({ initial }: Props) {
       setStatus(detail);
       return;
     }
-    setStatus("Saved for today.");
+    setStatus(`Saved for ${localDate || "today"}.`);
   }
 
   return (

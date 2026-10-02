@@ -1,22 +1,35 @@
 import { redirect } from "next/navigation";
 import { MotivationForm } from "@/components/MotivationForm";
+import { DayPicker } from "@/components/DayPicker";
 import {
   freshnessLabel,
   hoursFromSec,
   loadTodayBundle,
   requireUser,
 } from "@/lib/data";
+import { localDateInAppTz } from "@/lib/crypto";
 
-export default async function TodayPage() {
+export default async function TodayPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>;
+}) {
   const { user } = await requireUser();
   if (!user) redirect("/login");
+  const params = await searchParams;
+  const realToday = localDateInAppTz();
+  const selected =
+    params.date && /^\d{4}-\d{2}-\d{2}$/.test(params.date)
+      ? params.date
+      : realToday;
 
   let bundle;
   try {
-    bundle = await loadTodayBundle(user.id);
+    bundle = await loadTodayBundle(user.id, selected);
   } catch {
     bundle = {
-      today: new Date().toISOString().slice(0, 10),
+      today: selected,
+      realToday,
       sleep: null,
       readiness: null,
       activities: [] as Array<Record<string, unknown>>,
@@ -30,14 +43,20 @@ export default async function TodayPage() {
     };
   }
 
+  const isToday = bundle.today === realToday;
+
   return (
     <main className="stack">
       <header className="rise">
         <p className="pill">Pulse Desk</p>
-        <h1 style={{ margin: "10px 0 4px", fontSize: 36 }}>Today</h1>
+        <h1 style={{ margin: "10px 0 4px", fontSize: 36 }}>
+          {isToday ? "Today" : "Day view"}
+        </h1>
         <p className="muted" style={{ margin: 0 }}>
           {bundle.today} · morning view
+          {!isToday ? " (historical)" : ""}
         </p>
+        <DayPicker value={bundle.today} max={realToday} />
       </header>
 
       <section className="panel rise rise-delay-1">
@@ -101,7 +120,11 @@ export default async function TodayPage() {
 
       <section className="panel rise rise-delay-3">
         <h2 style={{ margin: "0 0 10px", fontSize: 20 }}>Motivation check-in</h2>
-        <MotivationForm initial={bundle.checkin} />
+        <MotivationForm
+          key={bundle.today}
+          localDate={bundle.today}
+          initial={bundle.checkin}
+        />
       </section>
 
       <section className="panel">

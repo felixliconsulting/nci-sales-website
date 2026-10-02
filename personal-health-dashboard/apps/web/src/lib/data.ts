@@ -9,10 +9,12 @@ export async function requireUser() {
   return { supabase, user };
 }
 
-export async function loadTodayBundle(userId: string) {
+export async function loadTodayBundle(userId: string, localDate?: string) {
   const supabase = await createClient();
-  const today = localDateInAppTz();
-  const yesterday = shift(today, -1);
+  const realToday = localDateInAppTz();
+  const day =
+    localDate && /^\d{4}-\d{2}-\d{2}$/.test(localDate) ? localDate : realToday;
+  const yesterday = shift(day, -1);
 
   const [
     { data: sleep },
@@ -25,7 +27,7 @@ export async function loadTodayBundle(userId: string) {
       .from("sleep_daily")
       .select("*")
       .eq("user_id", userId)
-      .eq("sleep_date", today)
+      .eq("sleep_date", day)
       .order("source")
       .limit(1)
       .maybeSingle(),
@@ -33,27 +35,29 @@ export async function loadTodayBundle(userId: string) {
       .from("readiness_daily")
       .select("*")
       .eq("user_id", userId)
-      .eq("local_date", today)
+      .eq("local_date", day)
       .limit(1)
       .maybeSingle(),
     supabase
       .from("activity_sessions")
       .select("*")
       .eq("user_id", userId)
-      .gte("local_date", shift(today, -2))
+      .gte("local_date", shift(day, -2))
+      .lte("local_date", day)
       .order("started_at_utc", { ascending: false })
       .limit(5),
     supabase
       .from("motivation_checkins")
       .select("*")
       .eq("user_id", userId)
-      .eq("local_date", today)
+      .eq("local_date", day)
       .maybeSingle(),
     supabase.from("source_connections").select("*").eq("user_id", userId),
   ]);
 
   return {
-    today,
+    today: day,
+    realToday,
     yesterday,
     sleep,
     readiness,
