@@ -50,27 +50,32 @@ export async function storeOuraTokens(
 ) {
   const supabase = createServiceClient();
   const expiresAt = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
-  await supabase.from("oauth_tokens").upsert(
+  const scopes = (tokens.scope || "daily workout").split(/\s+/).filter(Boolean);
+
+  const { error: tokenError } = await supabase.from("oauth_tokens").upsert(
     {
       user_id: userId,
       source: "oura",
       access_token_encrypted: encryptSecret(tokens.access_token),
       refresh_token_encrypted: encryptSecret(tokens.refresh_token),
       expires_at: expiresAt,
-      scopes: (tokens.scope || "daily workout").split(/\s+/),
+      scopes,
     },
     { onConflict: "user_id,source" },
   );
-  await supabase.from("source_connections").upsert(
+  if (tokenError) throw new Error(`Failed to store Oura tokens: ${tokenError.message}`);
+
+  const { error: connError } = await supabase.from("source_connections").upsert(
     {
       user_id: userId,
       source: "oura",
       status: "connected",
-      scopes: (tokens.scope || "daily workout").split(/\s+/),
+      scopes,
       last_error: null,
     },
     { onConflict: "user_id,source" },
   );
+  if (connError) throw new Error(`Failed to store Oura connection: ${connError.message}`);
 }
 
 async function getValidAccessToken(userId: string): Promise<string> {
